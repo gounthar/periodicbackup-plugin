@@ -1,68 +1,31 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.jenkins-ci.plugins</groupId>
         <artifactId>plugin</artifactId>
-        <version>3.57</version>
+        <version>5.28</version>
     </parent>
 
     <artifactId>periodicbackup</artifactId>
     <name>Periodic Backup</name>
-    <version>2.1-SNAPSHOT</version>
+    <version>${revision}${changelist}</version>
     <packaging>hpi</packaging>
 
     <scm>
-        <connection>scm:git:ssh://github.com/jenkinsci/periodicbackup-plugin.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/jenkinsci/periodicbackup-plugin.git</developerConnection>
-        <url>https://github.com/jenkinsci/periodicbackup-plugin.git</url>
-        <tag>HEAD</tag>
+        <connection>scm:git:ssh://github.com/${gitHubRepo}.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/${gitHubRepo}.git</developerConnection>
+        <url>https://github.com/${gitHubRepo}.git</url>
+        <tag>${scmTag}</tag>
     </scm>
-
-    <developers>
-        <developer>
-            <name>Tomasz Blaszczynski</name>
-            <email>tomasz.blaszczynski@gmail.com</email>
-            <timezone>+1</timezone>
-        </developer>
-        <developer>
-            <name>Emanuele Zattin</name>
-            <email>emanuelez@gmail.com</email>
-            <timezone>+1</timezone>
-        </developer>
-        <developer>
-            <name>Johno Crawford</name>
-            <email>johno.crawford@gmail.com</email>
-            <timezone>+1</timezone>
-        </developer>
-        <developer>
-            <name>Oleg Nenashev</name>
-            <id>oleg_nenashev</id>
-            <email>o.v.nenashev@gmail.com</email>
-            <timezone>+1</timezone>
-        </developer>
-    </developers>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>io.jenkins.plugins</groupId>
-                <artifactId>snakeyaml-api</artifactId>
-                <version>1.29.1</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jenkins-ci.plugins</groupId>
-                <artifactId>jackson2-api</artifactId>
-                <version>2.12.4</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jenkins-ci.main</groupId>
-                <artifactId>jenkins-test-harness</artifactId>
-                <version>1589.vc23fca066d5c</version>
-            </dependency>
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>4.13.2</version>
+                <groupId>io.jenkins.tools.bom</groupId>
+                <artifactId>bom-${jenkins.baseline}.x</artifactId>
+                <version>5701.va_b_018a_a_6b_0d3</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
         </dependencies>
 
@@ -82,31 +45,30 @@
         </dependency>
         <dependency>
         	<groupId>org.hamcrest</groupId>
-        	<artifactId>hamcrest-all</artifactId>
-        	<version>1.3</version>
+        	<artifactId>hamcrest</artifactId>
         	<scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>aws-credentials</artifactId>
-            <version>1.32</version>
         </dependency>
         <dependency>
             <groupId>org.jenkins-ci.plugins.aws-java-sdk</groupId>
             <artifactId>aws-java-sdk-ec2</artifactId>
-            <version>1.12.70</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jenkins.plugins</groupId>
+            <artifactId>jakarta-xml-bind-api</artifactId>
         </dependency>
 
         <dependency>
             <groupId>io.jenkins</groupId>
             <artifactId>configuration-as-code</artifactId>
-            <version>${configuration-as-code.version}</version>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>io.jenkins.configuration-as-code</groupId>
             <artifactId>test-harness</artifactId>
-            <version>${configuration-as-code.version}</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -125,12 +87,13 @@
     </distributionManagement>
 
     <properties>
-        <!--For parent POM-->
-        <jenkins.version>2.249.1</jenkins.version>
-        <java.level>8</java.level>
+        <revision>2.1</revision>
+        <changelist>-SNAPSHOT</changelist>
+        <gitHubRepo>jenkinsci/periodicbackup-plugin</gitHubRepo>
+        <jenkins.baseline>2.516</jenkins.baseline>
+        <jenkins.version>${jenkins.baseline}.3</jenkins.version>
 
         <slf4jVersion>1.7.36</slf4jVersion>
-        <configuration-as-code.version>1.55.1</configuration-as-code.version>
     </properties>
 
     <build>
@@ -154,7 +117,6 @@
         <plugins>
           <plugin>
             <artifactId>maven-site-plugin</artifactId>
-            <version>3.6</version>
           </plugin>
         </plugins>
 
